@@ -28,12 +28,14 @@ class LuhnTest extends \PHPUnit_Framework_TestCase
 
     public function testToInt()
     {
+        // var_dump(Luhn::getChecksum('87654323'));
+        var_dump(self::runNonPublicMethod(Luhn::class,'appendCheckDigit',['1234567']));
         $this->assertSame(1234567890123452,self::runNonPublicMethod(Luhn::class,'toInt',[$this->withCheckDigit]));
     }
 
     public function testGetChecksum()
     {
-        $this->assertSame(0,Luhn::getChecksum($this->withCheckDigit));
+        $this->assertSame(0,self::runNonPublicMethod(Luhn::class,'getChecksum',[$this->withCheckDigit]));
     }
 
     public function testValidate()
@@ -46,9 +48,9 @@ class LuhnTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->theCheckDigit, Luhn::calculate($this->withoutCheckDigit));
     }
 
-    public function testAppendChecksum()
+    public function testAppendCheckDigit()
     {
-        $appended = Luhn::appendChecksum($this->withoutCheckDigit);
+        $appended = Luhn::appendCheckDigit($this->withoutCheckDigit);
         $this->assertSame($this->withoutCheckDigit.$this->theCheckDigit, $appended);
         $this->assertTrue(Luhn::validate($appended));
     }

@@ -8,7 +8,7 @@ class Luhn
         return (int)preg_replace('/\W/','',$number);
     }
 
-    public static function getChecksum($number)
+    protected static function getChecksum($number)
     {
         $number   = static::toInt($number);
         $sequence = str_split($number);
@@ -26,14 +26,14 @@ class Luhn
         return static::getChecksum($number) === 0;
     }
 
-    public static function calculate($number)
+    public static function calculate($partial_number)
     {
-        $number   = static::toInt($number);
-        $checksum = static::getChecksum($number * 10);
+        $partial_number = static::toInt($partial_number);
+        $checksum       = static::getChecksum($partial_number * 10);
         return $checksum ? 10 - $checksum : $checksum;
     }
 
-    public static function appendChecksum($number){
-        return $number . static::calculate($number);
+    public static function appendCheckDigit($partial_number){
+        return $partial_number . static::calculate($partial_number);
     }
 }
