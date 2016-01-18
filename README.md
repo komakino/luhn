@@ -32,8 +32,8 @@ Luhn::validate('87654323'); // returns true
 
 Calculates the check digit of a number.
 ```php
-Luhn::validate('12345678'); // returns false
-Luhn::validate('87654323'); // returns true
+Luhn::calculate('1234567'); // returns 4
+Luhn::calculate('8765432'); // returns 3
 ```
 
 *static* string **appendCheckDigit**(string|int $partial_number)
