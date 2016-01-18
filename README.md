@@ -39,8 +39,6 @@ Luhn::calculate('8765432'); // returns 3
 *static* string **appendCheckDigit**(string|int $partial_number)
 
 Calculates the check digit and returns number with check digit appended.
-
-Calculates the check digit of a number.
 ```php
 Luhn::appendCheckDigit('1234567'); // returns 12345674
 Luhn::appendCheckDigit('8765432'); // returns 87654323
