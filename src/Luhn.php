@@ -29,7 +29,7 @@ class Luhn
     public static function calculate($partial_number)
     {
         $partial_number = static::toInt($partial_number);
-        $checksum       = static::getChecksum($partial_number * 10);
+        $checksum       = static::getChecksum($partial_number);
         return $checksum ? 10 - $checksum : $checksum;
     }
 
