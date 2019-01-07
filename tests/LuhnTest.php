@@ -2,30 +2,51 @@
 
 namespace Komakino\Luhn\Tests;
 
-use ReflectionClass;
 use Komakino\Luhn\Luhn;
 
 class LuhnTest extends \PHPUnit_Framework_TestCase
 {
-    protected $withCheckDigit    = '1234-5678-9012-3452';
 
-    protected $withoutCheckDigit = '555-666-777-88';
-    protected $theCheckDigit     = 6;
-
-    public function testValidate()
+    public function provideValues()
     {
-        $this->assertTrue(Luhn::validate($this->withCheckDigit));
+        return [
+            ['1234-5678-9012-3452', '1234-5678-9012-345', 2],
+            ['555-666-777-886', '555-666-777-88', 6],
+            ['670919-9530', '670919-953', 0],
+            ['0005251236', '000525123', 6]
+        ];
     }
 
-    public function testCalculate()
+    /**
+     * @param string $withCheckDigit
+     * @dataProvider provideValues
+     */
+    public function testValidate($withCheckDigit)
     {
-        $this->assertSame($this->theCheckDigit, Luhn::calculate($this->withoutCheckDigit));
+        $this->assertTrue(Luhn::validate($withCheckDigit));
     }
 
-    public function testAppendCheckDigit()
+    /**
+     * @param string $withCheckDigit
+     * @param string $withoutCheckDigit
+     * @param int $checkDigit
+     * @dataProvider provideValues
+     */
+    public function testCalculate($withCheckDigit, $withoutCheckDigit, $checkDigit)
     {
-        $appended = Luhn::appendCheckDigit($this->withoutCheckDigit);
-        $this->assertSame($this->withoutCheckDigit.$this->theCheckDigit, $appended);
+        $this->assertSame($checkDigit, Luhn::calculate($withoutCheckDigit));
+    }
+
+    /**
+     * @param string $withCheckDigit
+     * @param string $withoutCheckDigit
+     * @param int $checkDigit
+     * @dataProvider provideValues
+     */
+    public function testAppendCheckDigit($withCheckDigit, $withoutCheckDigit, $checkDigit)
+    {
+        $appended = Luhn::appendCheckDigit($withoutCheckDigit);
+        $this->assertSame($withoutCheckDigit.$checkDigit, $appended);
         $this->assertTrue(Luhn::validate($appended));
     }
 }
