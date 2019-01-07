@@ -5,7 +5,7 @@ namespace Komakino\Luhn;
 class Luhn
 {
     protected static function toInt($number) {
-        return (int)preg_replace('/\W/','',$number);
+        return preg_replace('/[^\d]/','',$number);
     }
 
     protected static function getChecksum($number)
